@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Loja de vendas online com produtos variados.">
+    <title>Loja Online</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Cabeçalho com logo e menu -->
+    <header>
+        <div class="logo">
+            <h1>Tempero da Duda</h1> <!-- Nome alterado para Tempero da Duda -->
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#produtos">Produtos</a></li>
+                <li><a href="#contato">Contato</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Banner de Promoção -->
+    <section id="home" class="banner">
+        <h2>Promoções Imperdíveis!</h2>
+        <p>Descontos em todos os produtos, confira!</p>
+    </section>
+
+    <!-- Catálogo de Produtos -->
+    <section id="produtos" class="catalogo">
+        <h2>Nossos Produtos</h2>
+        <div class="produtos-lista">
+            <div class="produto-item">
+                <div class="produto-balao">
+                    <img src="feijao_tropeiro.jpg" alt="Feijão Tropeiro">
+                    <h3>Feijão Tropeiro</h3>
+                    <p>P: R$ 25,00</p>
+                    <p>G: R$ 30,00</p>
+                    <button onclick="adicionarAoCarrinho('Feijão Tropeiro P', 25)">Adicionar P ao Carrinho</button>
+                    <button onclick="adicionarAoCarrinho('Feijão Tropeiro G', 30)">Adicionar G ao Carrinho</button>
+                </div>
+            </div>
+            <div class="produto-item">
+                <div class="produto-balao">
+                    <img src="salpicao.jpg" alt="Salpicão">
+                    <h3>Salpicão</h3>
+                    <p>P: R$ 30,00</p>
+                    <p>G: R$ 35,00</p>
+                    <button onclick="adicionarAoCarrinho('Salpicão P', 30)">Adicionar P ao Carrinho</button>
+                    <button onclick="adicionarAoCarrinho('Salpicão G', 35)">Adicionar G ao Carrinho</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Carrinho de Compras -->
+    <section id="carrinho" class="carrinho">
+        <h2>Seu Carrinho</h2>
+        <ul id="lista-carrinho"></ul>
+        <p>Total: R$<span id="total-carrinho">0,00</span></p>
+        <p>Frete: R$<span id="frete">4,00</span></p>
+        <p>Valor Final: R$<span id="valor-final">4,00</span></p>
+        <button onclick="finalizarCompra()">Finalizar Compra</button>
+    </section>
+
+    <!-- Formulário de Entrega -->
+    <section id="form-entrega" class="form-entrega" style="display: none;">
+        <h2>Formulário de Entrega</h2>
+        <form id="entrega-form" onsubmit="enviarPedido(event)">
+            <input type="text" placeholder="Nome" required>
+            <input type="text" placeholder="Bairro" required>
+            <input type="text" placeholder="Número" required>
+            <input type="text" placeholder="Rua" required>
+            <input type="text" placeholder="Referência" required>
+            <select id="forma-pagamento" onchange="mostrarCamposPagamento()" required>
+                <option value="" disabled selected>Selecione a forma de pagamento</option>
+                <option value="dinheiro">Dinheiro</option>
+                <option value="pix">PIX</option>
+                <option value="cartao">Cartão</option>
+            </select>
+            <div id="campo-troco" style="display: none;">
+                <input type="number" id="valor-pagamento" placeholder="Valor para Troco">
+                <p id="troco" style="color: red;"></p>
+            </div>
+            <div id="chave-pix" style="display: none;">
+                <p>Chave PIX: 27997294468</p>
+            </div>
+            <button type="submit">Enviar Pedido</button>
+        </form>
+    </section>
+
+    <!-- Formulário de Contato -->
+    <section id="contato" class="contato">
+        <h2>Entre em Contato</h2>
+        <form id="form-contato">
+            <input type="text" placeholder="Nome" required>
+            <input type="email" placeholder="E-mail" required>
+            <textarea placeholder="Mensagem" required></textarea>
+            <button type="submit">Enviar</button>
+        </form>
+    </section>
+
+    <!-- Rodapé com Redes Sociais -->
+    <footer>
+        <p>&copy; 2024 Tempero da Duda. Todos os direitos reservados.</p>
+        <p>
+            <a href="https://www.facebook.com/seu-perfil" target="_blank">Facebook</a> |
+            <a href="https://www.instagram.com/seu-perfil" target="_blank">Instagram</a> |
+            <a href="https://wa.me/27997294468" target="_blank">WhatsApp</a>
+        </p>
+    </footer>
+
+    <script>
+        let totalCarrinho = 0;
+        let listaItens = ""; // Variável para armazenar os itens do carrinho
+        const taxaFrete = 4.00;
+        const freteGratuito = 60.00; // Frete grátis a partir de R$60
+
+        function adicionarAoCarrinho(produto, preco) {
+            totalCarrinho += preco;
+            listaItens += `${produto} - R$${preco.toFixed(2)}\n`; // Armazena os itens e preços no carrinho
+            document.getElementById('lista-carrinho').innerHTML += `<li>${produto} - R$${preco.toFixed(2)}</li>`;
+            atualizarTotal();
+        }
+
+        function atualizarTotal() {
+            let frete = totalCarrinho >= freteGratuito ? 0 : taxaFrete; // Frete grátis acima de R$60
+            const totalComFrete = totalCarrinho + frete;
+            document.getElementById('total-carrinho').innerText = totalCarrinho.toFixed(2);
+            document.getElementById('frete').innerText = frete.toFixed(2);
+            document.getElementById('valor-final').innerText = totalComFrete.toFixed(2);
+        }
+
+        function finalizarCompra() {
+            document.getElementById('form-entrega').style.display = 'block'; // Exibe o formulário de entrega
+        }
+
+        function mostrarCamposPagamento() {
+            const formaPagamento = document.getElementById('forma-pagamento').value;
+            document.getElementById('chave-pix').style.display = formaPagamento === 'pix' ? 'block' : 'none';
+            document.getElementById('campo-troco').style.display = formaPagamento === 'dinheiro' ? 'block' : 'none';
+        }
+
+        function calcularTroco() {
+            const valorPagamento = parseFloat(document.getElementById('valor-pagamento').value);
+            const valorFinal = parseFloat(document.getElementById('valor-final').innerText);
+
+            if (valorPagamento && valorPagamento > valorFinal) {
+                const troco = valorPagamento - valorFinal;
+                document.getElementById('troco').innerText = `Troco: R$${troco.toFixed(2)}`;
+            } else {
+                document.getElementById('troco').innerText = '';
+            }
+        }
+
+        document.getElementById('valor-pagamento').addEventListener('input', calcularTroco);
+
+        function enviarPedido(event) {
+            event.preventDefault();
+
+            const nome = document.querySelector('#entrega-form input[placeholder="Nome"]').value;
+            const bairro = document.querySelector('#entrega-form input[placeholder="Bairro"]').value;
+            const numero = document.querySelector('#entrega-form input[placeholder="Número"]').value;
+            const rua = document.querySelector('#entrega-form input[placeholder="Rua"]').value;
+            const referencia = document.querySelector('#entrega-form input[placeholder="Referência"]').value;
+            const formaPagamento = document.getElementById('forma-pagamento').value;
+            let mensagemPedido = `Pedido de ${nome}\nEndereço: Rua ${rua}, Nº ${numero}, Bairro ${bairro}, Referência: ${referencia}\nForma de pagamento: ${formaPagamento}\nItens:\n${listaItens}Total: R$${totalCarrinho.toFixed(2)}\nFrete: R$${(totalCarrinho >= freteGratuito ? 0 : taxaFrete).toFixed(2)}\nValor Final: R$${(totalCarrinho + (totalCarrinho >= freteGratuito ? 0 : taxaFrete)).toFixed(2)}`;
+
+            if (formaPagamento === 'dinheiro') {
+                const valorPagamento = parseFloat(document.getElementById('valor-pagamento').value);
+                const troco = valorPagamento - (totalCarrinho + (totalCarrinho >= freteGratuito ? 0 : taxaFrete));
+                mensagemPedido += `\nValor pago: R$${valorPagamento.toFixed(2)}\nTroco: R$${troco.toFixed(2)}`;
+            }
+
+            const numeroWhatsapp = "27997294468";
+            const urlWhatsapp = `https://wa.me/${numeroWhatsapp}?text=${encodeURIComponent(mensagemPedido)}`;
+            window.open(urlWhatsapp, '_blank');
+        }
+    </script>
+</body>
+</html>
