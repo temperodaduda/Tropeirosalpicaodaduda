@@ -60,8 +60,8 @@
         <h2>Seu Carrinho</h2>
         <ul id="lista-carrinho"></ul>
         <p>Total: R$<span id="total-carrinho">0,00</span></p>
-        <p>Frete: R$<span id="frete">4,00</span></p>
-        <p>Valor Final: R$<span id="valor-final">4,00</span></p>
+        <p>Frete: R$<span id="frete">0,00</span></p>
+        <p>Valor Final: R$<span id="valor-final">0,00</span></p>
         <button onclick="finalizarCompra()">Finalizar Compra</button>
     </section>
 
@@ -115,7 +115,7 @@
     <script>
         let totalCarrinho = 0;
         let listaItens = ""; // Variável para armazenar os itens do carrinho
-        const taxaFrete = 4.00;
+        const taxaFrete = 0.00;
         const freteGratuito = 60.00; // Frete grátis a partir de R$60
 
         function adicionarAoCarrinho(produto, preco) {
