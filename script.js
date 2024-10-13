@@ -74,7 +74,7 @@ function enviarPedido() {
         const troco = valorPago - totalCarrinho;
         mensagemWhatsApp += `Pagamento: Dinheiro\nValor Pago: R$ ${valorPago.toFixed(2)}\nTroco: R$ ${troco.toFixed(2)}\n`;
     } else if (pagamento === 'pix') {
-        mensagemWhatsApp += `Pagamento: PIX\nChave PIX: 27997294468\n`;
+        mensagemWhatsApp += `Pagamento: PIX\nChave PIX: 27999595386\n`;
     } else if (pagamento === 'cartao') {
         mensagemWhatsApp += `Pagamento: Cartão\n`;
     }
@@ -82,7 +82,7 @@ function enviarPedido() {
     mensagemWhatsApp += `Total: R$ ${totalCarrinho.toFixed(2)}`;
 
     // Redireciona para o WhatsApp com a mensagem do pedido
-    const urlWhatsApp = `https://wa.me/27997294468?text=${encodeURIComponent(mensagemWhatsApp)}`;
+    const urlWhatsApp = `https://wa.me/27999595386?text=${encodeURIComponent(mensagemWhatsApp)}`;
     window.open(urlWhatsApp, '_blank'); // Abre o WhatsApp em uma nova aba
 
     // Reseta o carrinho e o formulário
